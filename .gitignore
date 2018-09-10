@@ -1,0 +1,7 @@
+.gradle/*
+.idea/*
+*.xlsx
+build/*
+out/*
+testApiGeneric.iml
+*.MF
