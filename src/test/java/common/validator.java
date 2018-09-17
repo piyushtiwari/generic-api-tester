@@ -3,14 +3,13 @@ package common;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-/**
- * Created by SourabhM on 21-01-2016.
- */
+
 public class validator {
 
     public static void check(xlsReader dataSource, jsonParser jsonParser, int i, String Response, Reporting reporter, File f,long time) throws IOException, JSONException {
@@ -37,6 +36,17 @@ public class validator {
 //        String timeReq = (timeFlinSec>5.0) ? "<b>"+String.valueOf(timeFlinSec)+"</b>" : String.valueOf(timeFlinSec);
         String timeReq = (timeFlinSec>5.0) ? "<b>"+String.format("%.1f",timeFlinSec)+"</b>" : String.format("%.1f",timeFlinSec);
 
+        boolean isPassed = true;
+        try {
+            JSONAssert.assertEquals(expectedResponse.toString(), jsonResponse.toString(), false);
+        } catch (Error error){
+            isPassed = false;
+            System.out.println("ERROR: " + error.getMessage());
+            dataSource.setCellData("Tests", "Result", i, error.getMessage());
+        }
+
+
+        /*
         for (Object key : expectedResponse.keySet()) {
 
             System.out.println("Key: " + key);
@@ -68,9 +78,12 @@ public class validator {
 
 
         }
-        dataSource.setCellData("Tests", "Status", i, passOrFail[0]);
-        dataSource.setCellData("Tests", "Result", i, resultsForExcel.toString());
-        reporter.generateReport(passOrFail[0].toString(), "Service: "+dataSource.getCellData("Tests", "SERVICE", i).toString()+"<br>Method: "+dataSource.getCellData("Tests", "Method", i).toString()+"<br>Scenario: "+dataSource.getCellData("Tests", "Scenarios", i).toString(), resultsForExcel.toString(), i, f,dataSource.getCellData("Tests", "SL No.", i).toString(),timeReq);
+        */
+
+        dataSource.setCellData("Tests", "Status", i, isPassed?"PASS":"FAIL");
+        //dataSource.setCellData("Tests", "Status", i, passOrFail[0]);
+        //dataSource.setCellData("Tests", "Result", i, resultsForExcel.toString());
+        reporter.generateReport(isPassed?"PASS":"FAIL", "Service: "+dataSource.getCellData("Tests", "SERVICE", i).toString()+"<br>Method: "+dataSource.getCellData("Tests", "Method", i).toString()+"<br>Scenario: "+dataSource.getCellData("Tests", "Scenarios", i).toString(), resultsForExcel.toString(), i, f,dataSource.getCellData("Tests", "SL No.", i).toString(),timeReq);
         jsonParser.newmap.clear();
     }
 

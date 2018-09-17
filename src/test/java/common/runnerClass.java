@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 public class runnerClass {
     public static void main(String[] args) {
-        xlsReader dataSource = new xlsReader("ApiTestCases.xlsx");
+        xlsReader dataSource = new xlsReader("ApiTestCases-bw.xlsx");
         jsonParser jsonParser = new jsonParser();
         String endPoint = dataSource.getCellData("Constants", "EndPoint", 2);
         // validator validator = new validator();
