@@ -38,7 +38,14 @@ public class runnerClass {
                     String path = url.getPath();
                     String query = dataSource.getCellData("Tests", "Request", i);
                     //String url = dataSource.getCellData("Tests", "URL", i);
-                    LinkedHashMap headers = jsonParser.getJsonReturnHashMap(dataSource.getCellData("Tests", "Headers", i));
+
+                    LinkedHashMap headers;
+                    try{
+                        headers = jsonParser.getJsonReturnHashMap(dataSource.getCellData("Tests", "Headers", i));
+                    } catch (IOException e1) {
+                        headers = new LinkedHashMap<String, String>();
+                    }
+
                     String method = dataSource.getCellData("Tests", "Method", i).trim();
 
                     switch (method) {
