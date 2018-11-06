@@ -5,8 +5,6 @@ package common;
  */
 public class Constants
 {
-
-    static String OMNY_BASE_URL = "http://52.89.194.208:8777";
-
+    //static String OMNY_BASE_URL = "http://52.89.194.208:8777";
 
 }

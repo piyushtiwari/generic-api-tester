@@ -46,10 +46,12 @@ public class runnerClass {
                         headers = new LinkedHashMap<String, String>();
                     }
 
-                    String method = dataSource.getCellData("Tests", "Method", i).trim();
+                    MethodType method = MethodType.valueOf( dataSource.getCellData("Tests", "Method", i).trim());
+
+                    //RequestMethod
 
                     switch (method) {
-                        case "POST": {
+                        case POST: {
                             long start = System.currentTimeMillis();
                             String response = Util.postWithHeaders(endPoint, path, headers, query);
                             long end = System.currentTimeMillis();
@@ -58,7 +60,7 @@ public class runnerClass {
                             validator.check(dataSource, jsonParser, i, response, reporter, f, timeReq);
                             break;
                         }
-                        case "GET": {
+                        case GET: {
                             System.out.println("inside get");
                             long start = System.currentTimeMillis();
                             String response = Util.getWithHeaders(endPoint, path, headers);
@@ -67,7 +69,7 @@ public class runnerClass {
                             validator.check(dataSource, jsonParser, i, response, reporter, f, timeReq);
                             break;
                         }
-                        case "PUT": {
+                        case PUT: {
 
                             System.out.println("inside put--------------------");
                             System.out.println("the query is --" + query);
@@ -79,7 +81,7 @@ public class runnerClass {
 
                             break;
                         }
-                        case "DELETE": {
+                        case DELETE: {
                             System.out.println("inside delete-------------");
                             long start = System.currentTimeMillis();
                             String response = Util.deleteWithHeaders(endPoint, path, headers, query);
